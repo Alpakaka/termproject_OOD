@@ -218,7 +218,7 @@ public:
 				}
 				index.push_back(result_int);
 			}
-			if (index[1] < 0 && index[1] >= 75 && index[0] <= 0 && index[0] > 20) {
+			if (index[1] < 0 || index[1] > 75 || index[0] <= 0 || index[0] > 20) {
 				checker = false;
 			}
 			if (checker) { //규칙에 맞게 입력했다면
@@ -297,15 +297,34 @@ public:
 				index.push_back(result_int);
 			}
 			//화면에 보이는 라인과 index의 크기 확인
-			if (index[1] < 0 && index[1] >= 75 && index[0] <= 0 && index[0] > 20) {
+			if (index[1] < 0 || index[1] > 75 || index[0] <= 0 || index[0] > 20) {
 				checker = false;
+			}
+			int temp = 0;
+			if (book[current_page].size() < 20) {
+				temp = (index[0] - 1 - 20 + book[current_page].size()) * 75 + index[1] + (1500 * current_page);
+				if (temp < full_line.size()) {
+					int tmp = full_line.size() - 1 - temp;
+					if (index[2] < 0 || index[2] > full_line.size() - 1-temp) {
+						//삭제 바이트 범위가 남은 값보다 큰 경우 
+						this->message = "삭제 범위를 넘었습니다.";
+						checker = false;
+					}
+				}
+				else {
+					checker = false;
+					this->message = "삭제 가능 범위를 넘었습니다.";
+				}
+			}
+			else {
+				temp = (index[0] - 1) * 75 + index[1] + (1500 * current_page);
 			}
 			if (checker) { //규칙에 맞게 입력했다면
 				checker = false; //넣었는지 확인용
 				vector<char> update_full_line;
 				//full_line 없데이트
 				for (int i = 0; i < full_line.size(); i++) {
-					if (!checker && ((index[0] - 1) * 75) + index[1] + (1500 * current_page) == i) {
+					if (!checker && temp == i) {
 						i += index[2] - 1;
 						checker = false;
 					}
@@ -326,7 +345,7 @@ public:
 				update_full_line.clear();
 			}
 			else {
-				this->message = "입력 양식이 잘못되었습니다.(index를 양식에 맞게 입력해주세요)";
+				this->message += "입력 양식이 잘못되었습니다.(index를 양식에 맞게 입력해주세요)";
 				this->update_i = -1;
 				this->update_count_line = -20;
 			}
@@ -557,8 +576,14 @@ int main() {
 			full_line = option->full_line;
 		}
 		else {
-			i -= 1;
+			if (i == book.size()-1) {
+				count_line -= book[book.size() - 1].size();
+			}
+			else {
 			count_line -= 20;
+
+			}
+			i -= 1;
 			message = "옵션 형식이 올바르지 않습니다.";
 		}
 		delete f;

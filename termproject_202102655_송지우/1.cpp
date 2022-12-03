@@ -233,6 +233,9 @@ public:
 						this->message = "추가 가능 범위를 넘었습니다.";
 					}
 				}
+				else {
+					temp = (index[0] - 1) * 75 + index[1] + (1500 * current_page);
+				}
 				//full_line 업데이트
 				for (int i = 0; i < full_line.size(); i++) {
 					if (!checker && temp == i) {

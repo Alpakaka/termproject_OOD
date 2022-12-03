@@ -85,7 +85,6 @@ public:
 		if (current_page == book.size() - 1) {
 			//마지막 페이지라면
 			this->update_i = -1;
-			this->update_count_line = book[book.size() - 1].size() * (-1);
 			this->message = "마지막 페이지입니다.";
 		}
 		else {
@@ -224,9 +223,19 @@ public:
 			if (checker) { //규칙에 맞게 입력했다면
 				checker = false; //넣었는지 확인용
 				vector<char> update_full_line;
-				//full_line 없데이트
+
+				int temp = 0;
+				if (book[current_page].size() < 20) {
+					temp = (index[0] - 1 - 20 + book[current_page].size()) * 75 + index[1] + (1500 * current_page);
+					if (temp >= full_line.size()) {
+							//추가 범위가 음수일때 
+						checker = false;
+						this->message = "추가 가능 범위를 넘었습니다.";
+					}
+				}
+				//full_line 업데이트
 				for (int i = 0; i < full_line.size(); i++) {
-					if (!checker && ((index[0] - 1) * 75) + index[1] + (current_page * 1500) == i) {
+					if (!checker && temp == i) {
 						for (int j = 0; j < insert_str.size(); j++) {
 							update_full_line.push_back(insert_str[j]);
 						}
@@ -241,9 +250,8 @@ public:
 				//업데이트된 full_line으로 book update
 
 				this->book = book_update(book, full_line);
-
 				this->update_i = -1;
-				this->update_count_line = -20;
+					this->update_count_line = -20;
 
 				result.clear();
 				index.clear();
@@ -520,9 +528,9 @@ int main() {
 
 	//출력하기
 	for (int i = 0; i < count_page; i++) {
-		if (book[i].size() < 20) {
+		if (book[i].size() < 20 ) {
 			//마지막 줄이 20보다 작은 경우 앞선 줄 출력으로 20줄 맞춰주기
-			count_line -= book[i - 1].size() - book[i].size();
+			count_line = ((book.size()-1)*20) - book[i - 1].size() + book[i].size() + 1;
 			for (int a = book[i].size(); a < book[i - 1].size(); a++) {
 				cout << count_line << "| ";
 				for (int b = 0; b < book[i - 1][a].size(); b++) {

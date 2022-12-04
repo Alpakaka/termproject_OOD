@@ -390,23 +390,20 @@ public:
 				return;
 			}
 			if (checker) { //규칙에 맞게 입력했다면
+				string line = "";
+				int count_byte = 0;
+				while (count_byte < full_line.size()) {
+					line += full_line[count_byte];
+					count_byte++;
+				}
 				full_line.clear();
 				//full_line 업데이트
-				ifstream myfile("test.txt");
-				string line;
-				int count_byte = 0;
-				if (myfile.is_open())
-				{
-					//파일에서 읽어오기
-					getline(myfile, line);
-					line = regex_replace(line, regex(result[0]), result[1]);
-					while (count_byte <= line.length()) {
-						full_line.push_back(line[count_byte]);
-						count_byte++;
-					}
+				count_byte = 0;
+				line = regex_replace(line, regex(result[0]), result[1]);
+				while (count_byte <= line.length()) {
+					full_line.push_back(line[count_byte]);
+					count_byte++;
 				}
-				else cout << "Unable to open file";
-				myfile.close();
 
 				//업데이트된 full_line으로 book update
 				this->book = book_update(book, full_line);
@@ -587,13 +584,7 @@ int main() {
 			full_line = option->full_line;
 		}
 		else {
-			if (i == book.size()-1) {
-				count_line -= book[book.size() - 1].size();
-			}
-			else {
 			count_line -= 20;
-
-			}
 			i -= 1;
 			message = "옵션 형식이 올바르지 않습니다.";
 		}

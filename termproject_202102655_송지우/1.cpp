@@ -228,7 +228,7 @@ public:
 				if (book[current_page].size() < 20) {
 					temp = (index[0] - 1 - 20 + book[current_page].size()) * 75 + index[1] + (1500 * current_page);
 					if (temp >= full_line.size()) {
-							//추가 범위가 음수일때 
+						//추가 범위가 음수일때 
 						checker = false;
 						this->message = "추가 가능 범위를 넘었습니다.";
 					}
@@ -254,7 +254,7 @@ public:
 
 				this->book = book_update(book, full_line);
 				this->update_i = -1;
-					this->update_count_line = -20;
+				this->update_count_line = -20;
 
 				result.clear();
 				index.clear();
@@ -316,7 +316,7 @@ public:
 				temp = (index[0] - 1 - 20 + book[current_page].size()) * 75 + index[1] + (1500 * current_page);
 				if (temp < full_line.size()) {
 					int tmp = full_line.size() - 1 - temp;
-					if (index[2] < 0 || index[2] > full_line.size() - 1-temp) {
+					if (index[2] < 0 || index[2] > full_line.size() - 1 - temp) {
 						//삭제 바이트 범위가 남은 값보다 큰 경우 
 						this->message = "삭제 범위를 넘었습니다.";
 						checker = false;
@@ -528,9 +528,9 @@ int main() {
 
 	//출력하기
 	for (int i = 0; i < count_page; i++) {
-		if (book[i].size() < 20 ) {
+		if (book[i].size() < 20) {
 			//마지막 줄이 20보다 작은 경우 앞선 줄 출력으로 20줄 맞춰주기
-			count_line = ((book.size()-1)*20) - book[i - 1].size() + book[i].size() + 1;
+			count_line = ((book.size() - 1) * 20) - book[i - 1].size() + book[i].size() + 1;
 			for (int a = book[i].size(); a < book[i - 1].size(); a++) {
 				cout << count_line << "| ";
 				for (int b = 0; b < book[i - 1][a].size(); b++) {

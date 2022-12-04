@@ -127,12 +127,8 @@ public:
 	void print() {
 		ofstream writefile;
 		writefile.open("test.txt");
-		for (int i = 0; i < book.size(); i++) {
-			for (int j = 0; j < book[i].size(); j++) {
-				for (int k = 0; k < book[i][j].size(); k++) {
-					writefile << book[i][j][k];
-				}
-			}
+		for (int i = 0; i < full_line.size(); i++) {
+			writefile << full_line[i];
 		}
 		writefile.close();
 		cout << "저장하고 종료하였습니다." << endl;

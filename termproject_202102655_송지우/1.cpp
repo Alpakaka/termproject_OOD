@@ -202,6 +202,7 @@ public:
 				this->update_count_line = -20;
 				return;
 			}
+			//인덱스  int화
 			for (int i = 0; i < 2; i++) {
 				int result_int;
 				try {
@@ -214,6 +215,9 @@ public:
 				index.push_back(result_int);
 			}
 			if (index[1] < 0 || index[1] > 75 || index[0] <= 0 || index[0] > 20) {
+				//index[0]는 라인, index[1]는 바이트, index[2]는 삭제할 바이트
+				//인덱스가 0보다 작거나 75이상인 경우 false,
+				//라인수가 0보다 작거나같은경우 혹은 20보다 이상인 경우 false
 				checker = false;
 			}
 			if (checker) { //규칙에 맞게 입력했다면
@@ -304,7 +308,8 @@ public:
 				index.push_back(result_int);
 			}
 			//화면에 보이는 라인과 index의 크기 확인
-			if (index[1] < 0 || index[1] > 75 || index[0] <= 0 || index[0] > 20) {
+			if (index[0] <= 0 || index[0] > 20|| index[1] < 0 || index[1] > 74 || index[2] < 0) {
+				//index[0]는 라인, index[1]는 바이트, index[2]는 삭제할 바이트
 				checker = false;
 			}
 			int temp = 0;
